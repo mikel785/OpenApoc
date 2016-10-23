@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/state/equipment.h"
 #include "game/state/stateobject.h"
 #include "library/sp.h"
 #include "library/strings.h"
@@ -17,7 +18,7 @@ class Sample;
 class DoodadType;
 class Organisation;
 
-class VEquipmentType : public StateObject<VEquipmentType>
+class VEquipmentType : public StateObject<VEquipmentType>, public EquipmentType
 {
   public:
 	VEquipmentType();
@@ -90,6 +91,10 @@ class VEquipmentType : public StateObject<VEquipmentType>
 	int shielding;
 	bool cloaking;
 	bool teleporting;
+
+	sp<Image> getEquippedImage() const override;
+	sp<Image> getImage() const override;
+	Vec2<int> getGridSize() const override;
 };
 
 } // namespace OpenApoc
