@@ -58,6 +58,9 @@ class VEquipState
 	sp<Equipment> draggedEquipment;
 	VEquipmentType::Type selectedType = VEquipmentType::Type::Weapon;
 
+	std::set<sp<Control>> inventoryControls;
+	std::set<sp<Control>> equippedControls;
+
   public:
 	VEquipState(sp<EquippableObject> object, sp<EquipmentStore> inventory,
 	            sp<Control> paperDollControl, sp<ListBox> inventoryControl)
@@ -65,17 +68,21 @@ class VEquipState
 	      inventoryControl(inventoryControl)
 	{
 		this->resetInventory();
+		this->resetEquipment();
 	}
-	void render()
+	~VEquipState()
 	{
-		
+		this->paperDollControl->Controls.clear();
+		this->inventoryControl->clear();
 	}
-	void eventOccurred(Event *e);
-	void setSelectedType(VEquipmentType::Type);
+	void render() {}
+	void eventOccurred(Event *e) {}
+	void setSelectedType(VEquipmentType::Type) {}
 
 	void resetInventory()
 	{
 		inventoryControl->clear();
+		this->inventoryControls.clear();
 		if (!inventory)
 			return;
 		for (auto &item : inventory->getEquipment())
@@ -86,6 +93,43 @@ class VEquipState
 			auto control = createInventoryControl(itemType, count);
 			control->setData(itemType);
 			inventoryControl->addItem(control);
+			inventoryControls.insert(control);
+		}
+	}
+	void resetEquipment()
+	{
+		paperDollControl->Controls.clear();
+		this->equippedControls.clear();
+		if (this->draggedEquipment)
+		{
+			this->inventory->returnEquipmentToStore(std::move(this->draggedEquipment));
+		}
+		for (auto &eq : object->getCurrentEquipment())
+		{
+			auto gridPosition = eq.first;
+			auto equipment = eq.second;
+
+			auto img = equipment->getImage();
+			auto control = paperDollControl->createChild<Graphic>(img);
+			control->Size = img->size;
+			control->Location = gridPosition * object->getGridSlotSize();
+		}
+	}
+	void dropEquipment(Vec2<int> cursorPos)
+	{
+		if (!this->draggedEquipment)
+			return;
+		auto equipment = std::move(this->draggedEquipment);
+		auto gridPos = cursorPos - paperDollControl->getLocationOnScreen();
+		gridPos /= object->getGridSlotSize();
+
+		if (object->canEquipAtPosition(gridPos, equipment))
+		{
+			object->equipAtPosition(gridPos, equipment);
+		}
+		else
+		{
+			this->inventory->returnEquipmentToStore(equipment);
 		}
 	}
 };

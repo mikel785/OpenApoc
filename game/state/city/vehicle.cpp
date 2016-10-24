@@ -912,4 +912,42 @@ template <> sp<Vehicle> StateObject<Vehicle>::get(const GameState &state, const 
 	return it->second;
 }
 
+Vec2<int> Vehicle::getEquipGridSize() const
+{
+	// FIXME: Put into vehicle type?
+	return {16, 16};
+}
+
+Vec2<int> Vehicle::getGridSlotSize() const
+{
+	// FIXME: Put into vehicle type?
+	return {16, 16};
+}
+
+bool Vehicle::canEquipAtPosition(Vec2<int> gridPosition, sp<Equipment> equipment) const
+{
+	// TODO: Check we can fit 'equipment'
+	return false;
+}
+
+void Vehicle::equipAtPosition(Vec2<int> gridPosition, sp<Equipment> equipment)
+{
+	LogAssert(canEquipAtPosition(gridPosition, equipment));
+	// TODO: Add to equipment at position
+}
+
+bool Vehicle::removeEquipment(sp<Equipment> equipment)
+{
+	// TODO: Remove 'equipment' from vehicle
+	return false;
+}
+
+std::list<sp<EquipmentSlot>> Vehicle::getEquipmentSlots() const
+{
+	// TODO: Return equipment slots
+	return {};
+}
+
+std::list<std::pair<Vec2<int>, sp<Equipment>>> Vehicle::getCurrentEquipment() const {}
+
 }; // namespace OpenApoc

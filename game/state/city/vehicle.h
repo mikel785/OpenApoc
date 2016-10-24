@@ -142,10 +142,9 @@ class Vehicle : public StateObject<Vehicle>,
 	Vec2<int> getGridSlotSize() const override;
 	bool canEquipAtPosition(Vec2<int> gridPosition, sp<Equipment> equipment) const override;
 	void equipAtPosition(Vec2<int> gridPosition, sp<Equipment> equipment) override;
-	sp<Equipment> getEquipmentAtPosition(Vec2<int> gridPosition) const override;
-	sp<Equipment> removeEquipmentAtPosition(Vec2<int> gridPosition) override;
-	const std::list<sp<EquipmentSlot>> &getEquipmentSlots() const override;
-	const std::list<std::pair<Vec2<int>, sp<Equipment>>> &getCurrentEquipment() const override;
+	bool removeEquipment(sp<Equipment>) override;
+	std::list<sp<EquipmentSlot>> getEquipmentSlots() const override;
+	std::list<std::pair<Vec2<int>, sp<Equipment>>> getCurrentEquipment() const override;
 };
 
 }; // namespace OpenApoc

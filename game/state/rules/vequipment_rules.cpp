@@ -45,4 +45,15 @@ sp<VEquipmentType> StateObject<VEquipmentType>::get(const GameState &state, cons
 	return it->second;
 }
 
+sp<Image> VEquipmentType::getImage() const { return this->equipscreen_sprite; }
+
+Vec2<int> VEquipmentType::getGridSize() const { return this->equipscreen_size; }
+
+std::list<std::pair<UString, UString>> VEquipmentType::getStats() const
+{
+	return {{"Stats", "Here"}};
+}
+
+UString VEquipmentType::getName() const { return this->name; }
+
 } // namespace OpenApoc

@@ -159,4 +159,8 @@ bool VEquipment::canFire() const
 	return this->weaponState == WeaponState::Ready;
 }
 
+sp<EquipmentType> VEquipment::getType() const { return this->type.getSp(); }
+
+sp<Image> VEquipment::getImage() const { return this->type->getImage(); }
+
 } // namespace OpenApoc

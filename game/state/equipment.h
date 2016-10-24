@@ -66,11 +66,11 @@ class EquippableObject
 	virtual bool canEquipAtPosition(Vec2<int> gridPosition, sp<Equipment> equipment) const = 0;
 	virtual void equipAtPosition(Vec2<int> gridPosition, sp<Equipment> equipment) = 0;
 
-	virtual sp<Equipment> getEquipmentAtPosition(Vec2<int> gridPosition) const = 0;
-	virtual sp<Equipment> removeEquipmentAtPosition(Vec2<int> gridPosition) = 0;
+	// Returns true if 'equipment' was found and removed
+	virtual bool removeEquipment(sp<Equipment> equipment) = 0;
 
-	virtual const std::list<sp<EquipmentSlot>> &getEquipmentSlots() const = 0;
-	virtual const std::list<std::pair<Vec2<int>, sp<Equipment>>> &getCurrentEquipment() const = 0;
+	virtual std::list<sp<EquipmentSlot>> getEquipmentSlots() const = 0;
+	virtual std::list<std::pair<Vec2<int>, sp<Equipment>>> getCurrentEquipment() const = 0;
 };
 
 class EquipmentStore
