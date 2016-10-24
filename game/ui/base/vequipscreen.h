@@ -2,7 +2,6 @@
 
 #include "framework/stage.h"
 #include "game/state/rules/vequipment_type.h"
-#include "game/state/stateobject.h"
 #include "library/colour.h"
 #include "library/rect.h"
 #include "library/sp.h"
@@ -20,36 +19,20 @@ class GameState;
 class Control;
 class VEquipmentType;
 
+class VEquipState;
+
 class VEquipScreen : public Stage
 {
   private:
 	sp<Form> form;
-	sp<Vehicle> selected;
-	VEquipmentType::Type selectionType;
 	sp<Palette> pal;
 	sp<BitmapFont> labelFont;
 
-	sp<Vehicle> highlightedVehicle;
-	StateRef<VEquipmentType> highlightedEquipment;
-
-	bool drawHighlightBox;
-	Colour highlightBoxColour;
-	Rect<int> highlightBox;
-
-	Vec2<int> draggedEquipmentOffset;
-	StateRef<VEquipmentType> draggedEquipment;
-
-	static const Vec2<int> EQUIP_GRID_SLOT_SIZE;
-	static const Vec2<int> EQUIP_GRID_SLOTS;
-
-	// List of screen-space rects for all equipped items
-	std::list<std::pair<Rect<int>, sp<VEquipment>>> equippedItems;
-	// List of screen-space rects for all inventory items
-	std::list<std::pair<Rect<int>, StateRef<VEquipmentType>>> inventoryItems;
-
-	std::map<sp<Control>, sp<Vehicle>> vehicleSelectionControls;
-
+	up<VEquipState> equipState;
 	sp<GameState> state;
+
+	sp<Vehicle> selected;
+	VEquipmentType::Type selectionType;
 
 	float glowCounter;
 

@@ -92,9 +92,10 @@ class VEquipmentType : public StateObject<VEquipmentType>, public EquipmentType
 	bool cloaking;
 	bool teleporting;
 
-	sp<Image> getEquippedImage() const override;
 	sp<Image> getImage() const override;
 	Vec2<int> getGridSize() const override;
+	std::list<std::pair<UString, UString>> getStats() const override;
+	UString getName() const override;
 };
 
 } // namespace OpenApoc

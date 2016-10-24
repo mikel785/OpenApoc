@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/state/equipment.h"
 #include "game/state/stateobject.h"
 #include "library/sp.h"
 #include "library/strings.h"
@@ -35,7 +36,9 @@ class VehicleMover
 	virtual ~VehicleMover();
 };
 
-class Vehicle : public StateObject<Vehicle>, public std::enable_shared_from_this<Vehicle>
+class Vehicle : public StateObject<Vehicle>,
+                public std::enable_shared_from_this<Vehicle>,
+                public EquippableObject
 {
   public:
 	~Vehicle() override;
@@ -134,6 +137,15 @@ class Vehicle : public StateObject<Vehicle>, public std::enable_shared_from_this
 	void setPosition(const Vec3<float> &pos);
 
 	virtual void update(GameState &state, unsigned int ticks);
+
+	Vec2<int> getEquipGridSize() const override;
+	Vec2<int> getGridSlotSize() const override;
+	bool canEquipAtPosition(Vec2<int> gridPosition, sp<Equipment> equipment) const override;
+	void equipAtPosition(Vec2<int> gridPosition, sp<Equipment> equipment) override;
+	sp<Equipment> getEquipmentAtPosition(Vec2<int> gridPosition) const override;
+	sp<Equipment> removeEquipmentAtPosition(Vec2<int> gridPosition) override;
+	const std::list<sp<EquipmentSlot>> &getEquipmentSlots() const override;
+	const std::list<std::pair<Vec2<int>, sp<Equipment>>> &getCurrentEquipment() const override;
 };
 
 }; // namespace OpenApoc

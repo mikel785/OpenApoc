@@ -63,5 +63,6 @@ class VEquipment : public Equipment
 	sp<Projectile> fire(Vec3<float> targetPosition, StateRef<Vehicle> targetVehicle = nullptr);
 
 	sp<EquipmentType> getType() const override;
+	sp<Image> getImage() const override;
 };
 } // namespace OpenApoc
